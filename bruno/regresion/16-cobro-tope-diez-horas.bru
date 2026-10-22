@@ -1,0 +1,27 @@
+meta {
+  name: Cobro con tope diez horas
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/tickets/{{topeLargoId}}/salida
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "salida": "2026-10-22T18:00:00"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.minutos: eq 600
+  res.body.monto: eq 60
+}
+
+docs {
+  Particion por encima del tope: 600 minutos son 10 horas, Q100 sin tope. Con la regla el monto queda en Q60.
+}
